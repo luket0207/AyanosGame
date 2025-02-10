@@ -1,0 +1,197 @@
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.icons,
+.guess {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.icon-list,
+.guess-list {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.icon {
+  font-size: 32px;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    transform: scale(1.2);
+    color: #ff9900;
+  }
+
+  &.selected {
+    color: #ff3333;
+    transform: scale(1.3);
+  }
+
+  &.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.guess-list {
+  display: flex;
+  gap: 10px;
+}
+
+.guess-slot {
+  width: 50px;
+  height: 50px;
+  border: 2px dashed gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  &.selected-slot {
+    border-color: #ff3333;
+    background: rgba(255, 51, 51, 0.2);
+  }
+}
+
+.submit-btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background 0.3s;
+
+  &:disabled {
+    background: gray;
+    cursor: not-allowed;
+  }
+
+  &:hover:not(:disabled) {
+    background: #0056b3;
+  }
+}
+
+.in-answer {
+  background: #a38c07; // Green background for correct icons
+  color: white;
+  border-radius: 5px;
+}
+
+.correct {
+  background: #4caf50; // Green background for correct icons
+  color: white;
+  border-radius: 5px;
+}
+
+.hidden-answer {
+  text-align: center;
+  margin-top: 20px;
+
+  h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+
+  .answer-list {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+
+    .icon {
+      font-size: 2rem;
+      margin: 30px 0px 40px;
+    }
+  }
+}
+
+@keyframes grow {
+  0%,
+  50%,
+  100% {
+    transform: scale(1);
+  }
+  25%,
+  75% {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes wobble {
+  0%,
+  25%,
+  50%,
+  75%,
+  100% {
+    transform: rotate(0deg);
+  }
+  12.5%,
+  62.5%
+   {
+    transform: rotate(8deg);
+  }
+  37.5%,
+  87.5% {
+    transform: rotate(-8deg);
+  }
+}
+
+@keyframes shrink {
+  0%,
+  50%,
+  100% {
+    transform: scale(1);
+  }
+  25%,
+  75% {
+    transform: scale(0.8);
+  }
+}
+
+.guess-slot {
+  transition: transform 0.3s ease;
+
+  &.isAnimating.correct {
+    .icon {
+      animation: grow .5s ease-in-out forwards;
+    }
+  }
+
+  &.isAnimating.in-answer {
+    .icon {
+      animation: wobble .5s ease-in-out forwards;
+    }
+  }
+
+  &.isAnimating.incorrect {
+    .icon {
+      animation: shrink .5s ease-in-out forwards;
+    }
+  }
+}
+
+.game.disabled {
+  pointer-events: none;
+
+  button {
+    opacity: 0.5;
+  }
+}
