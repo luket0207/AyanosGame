@@ -1,0 +1,217 @@
+.App {
+  text-align: center;
+}
+
+button {
+  background-color: #fff;
+  margin: 20px 5px;
+  border: none;
+  padding: 1rem;
+  font-size: 20px;
+  width: 10em;
+  border-radius: 1rem;
+  box-shadow: 0 0.4rem #dfd9d9;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+button:active {
+  color: white;
+  box-shadow: 0 0.2rem #dfd9d9;
+  transform: translateY(0.2rem);
+}
+
+button:hover:not(:disabled) {
+  color: white;
+  text-shadow: 0 0.1rem #bcb4b4;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+  transform: translateY(0.2rem);
+}
+
+////////////////////////////////////// POKEMON
+
+.Pokemon {
+  $pokemonBlue: rgb(39, 98, 121);
+
+  p {
+    font-family: "VT323", serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 20px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    font-family: "Luckiest Guy", serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .start {
+    background: rgb(39, 98, 121);
+    background: linear-gradient(
+      180deg,
+      rgba(39, 98, 121, 1) 33%,
+      rgba(53, 126, 171, 1) 100%
+    );
+    color: #fff;
+
+    h1 {
+      position: relative;
+      padding-right: 70px;
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -15px;
+        right: -10px;
+        height: 100px;
+        width: 100px;
+        background-image: url("./Assets/Images/Pokemon/pikachu-original-cap.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+    }
+
+    .selected-difficulty {
+      background: rgb(39, 98, 121);
+      background: linear-gradient(
+        245deg,
+        rgb(223, 226, 24) 10%,
+        rgb(168, 170, 17) 100%
+      );
+    }
+  }
+
+  .header {
+    background: rgb(39, 98, 121);
+    background: linear-gradient(
+      0deg,
+      rgba(39, 98, 121, 1) 33%,
+      rgba(53, 126, 171, 1) 100%
+    );
+    p {
+      color: #fff;
+    }
+  }
+
+  .guess-log-menu {
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -15px;
+      left: -10px;
+      height: 100px;
+      width: 100px;
+      background-image: url("./Assets/Images/Pokemon/pikachu-balloons.png");
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .guess-log {
+      h2 {
+        color: rgb(39, 98, 121);
+      }
+    }
+  }
+
+  .guess {
+    background: rgb(39, 98, 121);
+    background: linear-gradient(
+      180deg,
+      rgba(39, 98, 121, 1) 33%,
+      rgba(53, 126, 171, 1) 100%
+    );
+
+    &-guesses {
+      font-family: "VT323", serif;
+      font-weight: 500;
+      font-style: normal;
+      font-size: 20px;
+      background: rgb(39, 98, 121);
+      background: linear-gradient(
+        0deg,
+        rgba(39, 98, 121, 1) 33%,
+        rgba(53, 126, 171, 1) 100%
+      );
+      border-color: #fff;
+      color: #eee;
+    }
+  }
+
+  button {
+    font-family: "VT323", serif;
+    font-weight: 400;
+    font-style: normal;
+    color: $pokemonBlue;
+
+    &:hover:not(:disabled) {
+      background-color: $pokemonBlue;
+    }
+  }
+
+  .icon {
+    &:before {
+      background: rgb(208, 222, 90);
+      background: radial-gradient(
+        circle,
+        rgb(230, 250, 48) 5%,
+        rgba(208, 222, 90, 0) 75%
+      );
+    }
+  }
+}
+
+//Font examples
+
+.luckiest-guy-regular {
+  font-family: "Luckiest Guy", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.fredoka {
+  font-family: "Fredoka", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+.vt323-regular {
+  font-family: "VT323", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.pt-serif-regular {
+  font-family: "PT Serif", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.pt-serif-bold {
+  font-family: "PT Serif", serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.pt-serif-regular-italic {
+  font-family: "PT Serif", serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.pt-serif-bold-italic {
+  font-family: "PT Serif", serif;
+  font-weight: 700;
+  font-style: italic;
+}

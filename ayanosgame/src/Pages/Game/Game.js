@@ -1,6 +1,9 @@
 import "./Game.scss";
 import React, { useState, useEffect, useRef } from "react";
-import { imageSets } from "../../Assets/Images/ImageSets"; // Import image sets
+import { imageSets } from "../../Assets/Images/ImageSets";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes, faQuestion } from "@fortawesome/free-solid-svg-icons";
+import GuessLog from "../../Components/GuessLog/GuessLog";
 
 // Fisher-Yates Shuffle Algorithm
 const shuffleArray = (array) => {
@@ -12,28 +15,41 @@ const shuffleArray = (array) => {
   return shuffled;
 };
 
+const getImageSet = (theme) => {
+  switch (theme) {
+    case "Pokemon":
+      return imageSets.pokemon;
+    case "Dogs":
+      return imageSets.dogs;
+    case "Food":
+      return imageSets.food;
+    default:
+      return imageSets.pokemon; // Fallback to default (pokemon)
+  }
+};
+
 const Game = ({
   codeLength = 6,
-  imageSet = "pokemon",
   difficulty = "easy",
   setGameState,
+  theme = "Pokemon",
 }) => {
   let maxGuesses;
   switch (difficulty) {
     case "easy":
-      maxGuesses = Math.ceil(codeLength / 2) + 1;
+      maxGuesses = Math.ceil(codeLength / 2);
       break;
     case "medium":
-      maxGuesses = codeLength - 1;
+      maxGuesses = codeLength - 2;
       break;
     case "hard":
-      maxGuesses = Math.floor(codeLength + codeLength / 2);
+      maxGuesses = codeLength;
       break;
     case "extreme":
       maxGuesses = codeLength + codeLength;
       break;
     case "impossible":
-      maxGuesses = codeLength + (codeLength + Math.floor(codeLength / 2));
+      maxGuesses = codeLength + codeLength;
       break;
     default:
       maxGuesses = codeLength;
@@ -55,10 +71,14 @@ const Game = ({
   const [correctCount, setCorrectCount] = useState(0);
   const [totalCorrectIcons, setTotalCorrectIcons] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
-
+  const [guessLog, setGuessLog] = useState([]); // Stores all past guesses
+  const [menuState, setMenuState] = useState({ open: false, type: null });
+  const guessRef = useRef(null); // Ref for measuring height
+  const [guessHeight, setGuessHeight] = useState(0);
   const iconRef = useRef(null);
 
   useEffect(() => {
+    const selectedImageSet = getImageSet(theme);
     // Determine the number of icons based on difficulty
     let iconCount;
     switch (difficulty) {
@@ -77,14 +97,12 @@ const Game = ({
         iconCount = codeLength;
     }
 
-    const imageList = imageSets[imageSet] || imageSets["pokemon"];
-    const shuffledImages = shuffleArray(imageList).slice(0, codeLength + 4);
-    setIcons(shuffledImages);
+    const shuffledIcons = shuffleArray(selectedImageSet).slice(0, iconCount);
+    setIcons(shuffledIcons);
 
-    const answer = shuffleArray([...shuffledImages]).slice(0, codeLength);
+    const answer = shuffleArray([...shuffledIcons]).slice(0, codeLength);
     setHiddenAnswer(answer);
-
-    console.log(`Hidden Answer [${difficulty.toUpperCase()}]:`, answer);
+    console.log(answer);
   }, [codeLength, difficulty]);
 
   useEffect(() => {
@@ -102,25 +120,74 @@ const Game = ({
     };
   }, []);
 
+  useEffect(() => {
+    const updateGuessHeight = () => {
+      if (guessRef.current) {
+        setGuessHeight(guessRef.current.offsetHeight);
+      }
+    };
+
+    updateGuessHeight();
+    window.addEventListener("resize", updateGuessHeight);
+    return () => window.removeEventListener("resize", updateGuessHeight);
+  }, []);
+
   const placedIcons = new Set(guess.filter((icon) => icon !== null));
 
+  let clickTimer = null; // Timer to differentiate between single and double clicks
+
   const handleIconClick = (icon) => {
-    if (!placedIcons.has(icon)) {
+    if (selectedGuessIndex !== null) {
+      // Swap the selected guess with the clicked icon from the icons array
+      const newGuess = [...guess];
+
+      // Store the old icon before replacement
+      const oldIcon = newGuess[selectedGuessIndex];
+
+      newGuess[selectedGuessIndex] = icon; // Place the clicked icon into the guess array
+
+      setGuess(newGuess);
+
+      // Return the old icon to the icons array if it was a valid icon
+      if (oldIcon) {
+        setIcons((prevIcons) =>
+          prevIcons.includes(oldIcon) ? prevIcons : [...prevIcons, oldIcon]
+        );
+      }
+
+      // Reset selection
+      setSelectedGuessIndex(null);
+      setSelectedIcon(null);
+    } else if (!placedIcons.has(icon)) {
       setSelectedIcon(icon);
       setSelectedGuessIndex(null);
+    }
+  };
+
+  const handleIconDoubleClick = (icon) => {
+    if (clickTimer) {
+      clearTimeout(clickTimer); // Cancel the single-click timer
+      clickTimer = null;
+    }
+
+    const newGuess = [...guess];
+
+    // Check if the icon already exists in the guess array
+    if (newGuess.includes(icon)) {
+      return; // Prevent duplicate placement
+    }
+
+    const firstEmptyIndex = newGuess.indexOf(null);
+
+    if (firstEmptyIndex !== -1) {
+      newGuess[firstEmptyIndex] = icon;
+      setGuess(newGuess);
     }
   };
 
   const handleGuessClick = (index) => {
     if (selectedIcon) {
       const newGuess = [...guess];
-      if (newGuess[index]) {
-        const oldIcon = newGuess[index];
-        setIcons((prevIcons) =>
-          prevIcons.includes(oldIcon) ? prevIcons : [...prevIcons, oldIcon]
-        );
-      }
-
       newGuess[index] = selectedIcon;
       setGuess(newGuess);
       setSelectedIcon(null);
@@ -132,8 +199,10 @@ const Game = ({
       setSelectedIcon(guess[index]);
     } else if (selectedGuessIndex !== null) {
       const newGuess = [...guess];
-      newGuess[index] = newGuess[selectedGuessIndex];
-      newGuess[selectedGuessIndex] = null;
+      [newGuess[selectedGuessIndex], newGuess[index]] = [
+        newGuess[index],
+        newGuess[selectedGuessIndex],
+      ];
       setGuess(newGuess);
       setSelectedGuessIndex(null);
       setSelectedIcon(null);
@@ -193,14 +262,22 @@ const Game = ({
 
     setCorrectPositions(newCorrectPositions);
     setInAnswerPositions(newInAnswerPositions);
-    setCorrectCount(correct); // Store number of correct positions
-    setTotalCorrectIcons(totalCorrect); // Store number of correct icons (position-independent)
+    setCorrectCount(correct);
+    setTotalCorrectIcons(totalCorrect);
+
+    // Store this guess in the log with feedback
+    setGuessLog((prevLog) => [
+      ...prevLog,
+      {
+        guess: [...guess],
+        correctPositions: newCorrectPositions,
+        inAnswerPositions: newInAnswerPositions,
+      },
+    ]);
 
     setIsAnimating(true);
-
     setTimeout(() => {
       setIsAnimating(false);
-
       if (correct === codeLength) {
         setGameStatus("win");
       } else if (guessesLeft - 1 === 0) {
@@ -211,6 +288,14 @@ const Game = ({
     }, 1000);
   };
 
+  const handleCloseLog = () => {
+    setMenuState((prev) => ({ ...prev, open: false })); // Close immediately
+
+    setTimeout(() => {
+      setMenuState({ open: false, type: null }); // Reset type after 1s
+    }, 1000); // Delay matches CSS transition duration
+  };
+
   if (gameStatus) {
     return (
       <div className="game-over">
@@ -219,12 +304,13 @@ const Game = ({
           <h3>Hidden Answer:</h3>
           <div className="answer-list">
             {hiddenAnswer.map((icon, index) => (
-              <img
-                key={index}
-                src={require(`../../Assets/Images/Pokemon/${icon}`)}
-                alt={icon}
-                className="game-img"
-              />
+              <div key={index}>
+                <img
+                  src={require(`../../Assets/Images/${theme}/${icon}.png`)}
+                  alt={icon}
+                  className="game-img"
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -240,32 +326,74 @@ const Game = ({
 
   return (
     <div className={`game ${isAnimating ? "disabled" : ""}`}>
-      <p>Difficulty: {difficulty}</p>
-      <p>Guesses Left: {guessesLeft}</p>
+      <GuessLog
+        closeLog={handleCloseLog}
+        isLogOpen={menuState.open}
+        guessHeight={guessHeight}
+        guessLog={guessLog}
+        difficulty={difficulty}
+        theme={theme}
+        type={menuState.type}
+        setGameState={setGameState}
+      />
 
-      <div className="icons">
-        <h3>Icons</h3>
+      <div className="header">
+        <div
+          className="header-guesslog"
+          onClick={() => setMenuState({ open: true, type: "log" })}
+        >
+          <FontAwesomeIcon icon={faQuestion} />
+        </div>
+
+        <div className="header-difficulty">
+          <p>{difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}</p>
+        </div>
+
+        <div
+          className="header-quit"
+          onClick={() => setMenuState({ open: true, type: "quit" })}
+        >
+          <FontAwesomeIcon icon={faTimes} />
+        </div>
+      </div>
+
+      <div className="icons" style={{ marginBottom: `${guessHeight + 15}px` }}>
         <div className="icon-list">
           {icons.map((icon, index) => (
-            <img
+            <div
               key={index}
-              src={require(`../../Assets/Images/Pokemon/${icon}`)}
-              alt={icon}
-              className={`game-img ${
-                selectedIcon === icon ? "selected" : ""
+              className={`icon ${selectedIcon === icon ? "selected" : ""} ${
+                placedIcons.has(icon) ? "disabled" : ""
               }`}
-              onClick={() => handleIconClick(icon)}
-            />
+              onClick={(e) => {
+                e.stopPropagation();
+                if (placedIcons.has(icon)) return; // Prevent action if icon is disabled
+                handleIconClick(icon);
+              }}
+              onDoubleClick={(e) => {
+                e.stopPropagation();
+                if (placedIcons.has(icon)) return; // Prevent action if icon is disabled
+                handleIconDoubleClick(icon);
+              }}
+            >
+              <img
+                src={require(`../../Assets/Images/${theme}/${icon}.png`)}
+                alt={icon}
+                className="game-img"
+              />
+            </div>
           ))}
         </div>
       </div>
 
-      <div className="guess" ref={iconRef}>
-        <h3>Guess</h3>
-        <div className="guess-list">
+      <div className="guess" ref={guessRef}>
+        <div className="guess-guesses">
+          <p>{guessesLeft} Guesses Left</p>
+        </div>
+        <div className="guess-list" ref={iconRef}>
           {guess.map((icon, index) => (
             <div
-              key={`${index}-${guessesLeft}`} // Ensures re-render on each new guess
+              key={`${index}-${guessesLeft}`}
               className={`guess-slot ${
                 selectedGuessIndex === index ? "selected-slot" : ""
               } ${isAnimating ? "isAnimating" : ""} ${
@@ -283,26 +411,59 @@ const Game = ({
                   : handleGuessClick(index);
               }}
             >
-              {icon && <img src={require(`../../Assets/Images/Pokemon/${icon}`)} alt={icon} className="game-img" />}
+              {icon && (
+                <img
+                  src={require(`../../Assets/Images/${theme}/${icon}.png`)}
+                  alt={icon}
+                  className="game-img"
+                />
+              )}
             </div>
           ))}
         </div>
+        {difficulty === "impossible" && (
+          <div className="impossible-feedback">
+            <h3>Correct Icons in Right Place: {correctCount}</h3>
+            <h3>Correct Icons: {totalCorrectIcons}</h3>
+          </div>
+        )}
+        <button
+          className="submit-btn"
+          onClick={handleSubmitGuess}
+          disabled={guess.includes(null) || gameStatus !== null}
+        >
+          Submit Guess
+        </button>
       </div>
 
-      {difficulty === "impossible" && (
-        <div>
-          <h3>Correct Icons in Right Place: {correctCount}</h3>
-          <h3>Correct Icons: {totalCorrectIcons}</h3>
+      {/* {difficulty != "impossible" && (
+        <div className="guess-log">
+          <h3>Guess Log</h3>
+          {guessLog.map((entry, index) => (
+            <div key={index} className="log-entry">
+              {entry.guess.map((icon, i) => (
+                <div
+                  key={i}
+                  className={`log-slot ${
+                    entry.correctPositions[i] && difficulty !== "impossible"
+                      ? "correct"
+                      : entry.inAnswerPositions[i] &&
+                        (difficulty === "medium" || difficulty === "hard")
+                      ? "in-answer"
+                      : "incorrect"
+                  }`}
+                >
+                  <img
+                    src={require(`../../Assets/Images/${theme}/${icon}.png`)}
+                    alt={icon}
+                    className="game-img"
+                  />
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
-      )}
-
-      <button
-        className="submit-btn"
-        onClick={handleSubmitGuess}
-        disabled={guess.includes(null) || gameStatus !== null}
-      >
-        Submit Guess
-      </button>
+      )} */}
     </div>
   );
 };

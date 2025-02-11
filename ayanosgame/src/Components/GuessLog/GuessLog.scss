@@ -1,0 +1,90 @@
+.guess-log-menu {
+    background-color: #eee;
+  transition: all 0.8s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0px;
+  z-index: 8;
+  overflow: hidden;
+
+  .game-quit {
+    margin-top: 80px;
+  }
+
+  .close-btn {
+    width: 36px;
+    height: 36px;
+    background-color: #fff;
+    color: #357eab;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .guess-log {
+    &-container {
+      max-height: 380px;
+      overflow-y: auto;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin: 12px 0 0;
+    }
+
+    .no-guesses {
+        padding: 10px 30px;
+        font-size: 22px;
+    }
+
+    .log-entry-container {
+        display: flex;
+      gap: 10px;
+      margin-bottom: 5px;
+      justify-content: center;
+    }
+
+    .log-slot {
+      width: 22px;
+      height: 10px;
+      margin-top: 32px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #ddd;
+      transition: all 0.3s ease;
+
+      &.correct {
+        background-color: #4caf50; // Green
+      }
+
+      &.in-answer {
+        background-color: #ffeb3b; // Yellow
+      }
+
+      &.incorrect {
+        background: #a71010; // Green background for correct icons
+        border: solid 2px #6e0b0b;
+        border-radius: 5px;
+      }
+
+      img {
+        width: 30px;
+        height: 30px;
+        position: relative;
+        top: -23px;
+      }
+    }
+  }
+}

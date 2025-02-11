@@ -1,14 +1,14 @@
 import { useState } from "react";
-import "./App.css";
+import "./App.scss";
 import Game from "./Pages/Game/Game";
 import Start from "./Pages/Start/Start";
 
 function App() {
   const [gameState, setGameState] = useState("start");
   const [gameConfig, setGameConfig] = useState({ codeLength: 6, difficulty: "easy" });
-
+  const [theme, setTheme] = useState("Pokemon");
   return (
-    <div className="App">
+    <div className={`App ${theme}`}>
       {gameState === "start" ? (
         <Start setGameState={setGameState} setGameConfig={setGameConfig} />
       ) : (
