@@ -1,10 +1,56 @@
+// Font Mixins
+
+@mixin luckiest-guy {
+  font-family: "Luckiest Guy", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@mixin fredoka {
+  font-family: "Fredoka", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+@mixin vt323 {
+  font-family: "VT323", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@mixin trade-winds {
+  font-family: "Trade Winds", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
 .App {
   text-align: center;
 }
 
+.theme-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.overlay-visible {
+  opacity: 1;
+}
+
+
 button {
   background-color: #fff;
-  margin: 20px 5px;
+  margin: 12px 5px;
   border: none;
   padding: 1rem;
   font-size: 20px;
@@ -38,9 +84,7 @@ button:disabled {
   $pokemonBlue: rgb(39, 98, 121);
 
   p {
-    font-family: "VT323", serif;
-    font-weight: 400;
-    font-style: normal;
+    @include vt323;
     font-size: 20px;
   }
 
@@ -49,9 +93,7 @@ button:disabled {
   h3,
   h4,
   h5 {
-    font-family: "Luckiest Guy", serif;
-    font-weight: 400;
-    font-style: normal;
+    @include luckiest-guy;
   }
 
   .start {
@@ -70,7 +112,7 @@ button:disabled {
         content: "";
         position: absolute;
         bottom: -15px;
-        right: -10px;
+        right: -20px;
         height: 100px;
         width: 100px;
         background-image: url("./Assets/Images/Pokemon/pikachu-original-cap.png");
@@ -100,13 +142,21 @@ button:disabled {
     p {
       color: #fff;
     }
+
+    &-guesslog {
+      color: $pokemonBlue;
+    }
+
+    &-quit {
+      color: $pokemonBlue;
+    }
   }
 
   .guess-log-menu {
     &::after {
       content: "";
       position: absolute;
-      bottom: -15px;
+      bottom: -10px;
       left: -10px;
       height: 100px;
       width: 100px;
@@ -116,9 +166,20 @@ button:disabled {
       background-position: center;
     }
 
+    &.open {
+      .close-btn {
+        color: $pokemonBlue;
+      }
+    }
+
     .guess-log {
       h2 {
         color: rgb(39, 98, 121);
+      }
+
+      &-container {
+        border-top: solid 2px $pokemonBlue;
+        border-bottom: solid 2px $pokemonBlue;
       }
     }
   }
@@ -132,9 +193,8 @@ button:disabled {
     );
 
     &-guesses {
-      font-family: "VT323", serif;
+      @include vt323;
       font-weight: 500;
-      font-style: normal;
       font-size: 20px;
       background: rgb(39, 98, 121);
       background: linear-gradient(
@@ -147,14 +207,17 @@ button:disabled {
     }
   }
 
+  .impossible-feedback {
+    color: #fff;
+  }
+
   button {
-    font-family: "VT323", serif;
-    font-weight: 400;
-    font-style: normal;
+    @include vt323;
     color: $pokemonBlue;
 
     &:hover:not(:disabled) {
-      background-color: $pokemonBlue;
+      background-color: #eee;
+      color: $pokemonBlue;
     }
   }
 
@@ -168,50 +231,368 @@ button:disabled {
       );
     }
   }
+
+  .game-over {
+    color: #fff;
+    background: rgb(39, 98, 121);
+    background: linear-gradient(
+      0deg,
+      rgba(39, 98, 121, 1) 33%,
+      rgba(53, 126, 171, 1) 100%
+    );
+
+    h2 {
+      margin-bottom: 40px;
+    }
+  }
 }
 
-//Font examples
+////////////////////////////////////// DOGS
 
-.luckiest-guy-regular {
-  font-family: "Luckiest Guy", serif;
-  font-weight: 400;
-  font-style: normal;
+.Dogs {
+  $dogOrange: lightcoral;
+  $dogDarkOrange: coral;
+
+  p {
+    @include fredoka;
+    font-size: 20px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    @include fredoka;
+    font-weight: 600;
+  }
+
+  .start {
+    background: $dogDarkOrange;
+    background: linear-gradient(
+      180deg,
+      $dogDarkOrange 33%,
+      $dogOrange 100%
+    );
+    color: #fff;
+
+    h1 {
+      position: relative;
+      padding-right: 50px;
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -26px;
+        right: -20px;
+        height: 70px;
+        width: 70px;
+        background-image: url("./Assets/Images/Dogs/dog-bg.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+    }
+
+    .selected-difficulty {
+      background: #ffffff;
+      background: linear-gradient(
+        245deg,
+        #e2d349 10%,
+         #eedf8c 100%
+      );
+      color: $dogDarkOrange;
+    }
+  }
+
+  .header {
+    background: $dogDarkOrange;
+    background: linear-gradient(
+      0deg,
+      $dogDarkOrange 33%,
+      $dogOrange 100%
+    );
+    p {
+      color: #fff;
+    }
+
+    &-guesslog {
+      color: $dogDarkOrange;
+    }
+
+    &-quit {
+      color: $dogDarkOrange;
+    }
+  }
+
+  .guess-log-menu {
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -20px;
+      left: 5px;
+      height: 100px;
+      width: 100px;
+      background-image: url("./Assets/Images/Dogs/dog-bottom.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      z-index: 20;
+    }
+
+    &.open {
+      .close-btn {
+        color: $dogDarkOrange;
+      }
+    }
+
+    .guess-log {
+      h2 {
+        color: $dogDarkOrange;
+      }
+
+      &-container {
+        border-top: solid 2px $dogOrange;
+        border-bottom: solid 2px $dogOrange;
+      }
+    }
+  }
+
+  .guess {
+    background: $dogDarkOrange;
+    background: linear-gradient(
+      180deg,
+      $dogDarkOrange 33%,
+      $dogOrange 100%
+    );
+
+    &-guesses {
+      @include fredoka;
+      font-size: 20px;
+      background: $dogOrange;
+      background: linear-gradient(
+        0deg,
+        $dogDarkOrange 33%,
+        $dogOrange 100%
+      );
+      border-color: #fff;
+      color: #eee;
+    }
+  }
+
+  .impossible-feedback {
+    color: #fff;
+  }
+
+  button {
+    @include fredoka;
+    font-size: 16px;
+    color: $dogOrange;
+
+    &:hover:not(:disabled) {
+      background-color: #eee;
+      color: $dogOrange;
+    }
+  }
+
+  .icon {
+    &:before {
+      background: $dogOrange;
+      background: radial-gradient(
+        circle,
+        $dogOrange,
+        rgba(208, 222, 90, 0) 75%
+      );
+    }
+  }
+
+  .game-over {
+    color: #fff;
+    background: $dogDarkOrange;
+    background: linear-gradient(
+      0deg,
+      $dogDarkOrange 33%,
+      $dogOrange 100%
+    );
+
+    h2 {
+      margin-bottom: 40px;
+    }
+  }
 }
 
-.fredoka {
-  font-family: "Fredoka", serif;
-  font-optical-sizing: auto;
-  font-weight: 500;
-  font-style: normal;
-  font-variation-settings: "wdth" 100;
+
+////////////////////////////////////// ONE PIECE
+
+.OnePiece {
+  $onePieceLight: gold;
+  $onePieceDark: darkred;
+  $onePieceLightRed: rgb(165, 25, 25);
+
+  p {
+    @include trade-winds;
+    font-size: 20px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    @include trade-winds;
+    font-weight: 600;
+  }
+
+  .start {
+    background: $onePieceDark;
+    background: linear-gradient(
+      180deg,
+      $onePieceDark 33%,
+      $onePieceLight 100%
+    );
+    color: #fff;
+
+    h1 {
+      position: relative;
+      padding-right: 80px;
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        height: 70px;
+        width: 70px;
+        background-image: url("./Assets/Images/OnePiece/op-bg.png");
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+    }
+
+    .selected-difficulty {
+      background: #ffffff;
+      background: linear-gradient(
+        245deg,
+        $onePieceLight 10%,
+         #eedf8c 100%
+      );
+      color: $onePieceDark;
+    }
+  }
+
+  .header {
+    background: $onePieceDark;
+    background: linear-gradient(
+      0deg,
+      $onePieceDark 33%,
+      $onePieceLightRed 100%
+    );
+
+    p {
+      color: #fff;
+    }
+
+    &-guesslog {
+      color: $onePieceDark
+    }
+
+    &-quit {
+      color: $onePieceDark
+    }
+  }
+
+  .guess-log-menu {
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -20px;
+      left: 5px;
+      height: 100px;
+      width: 100px;
+      background-image: url("./Assets/Images/OnePiece/op-bottom.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      z-index: 20;
+    }
+
+    &.open {
+      .close-btn {
+        color: $onePieceDark;
+      }
+    }
+
+    .guess-log {
+      h2 {
+        color: $onePieceDark;
+      }
+
+      &-container {
+        border-top: solid 2px $onePieceLight;
+        border-bottom: solid 2px $onePieceLight;
+      }
+    }
+  }
+
+  .guess {
+    background: $onePieceDark;
+    background: linear-gradient(
+      180deg,
+      $onePieceDark 33%,
+      $onePieceLightRed 100%
+    );
+
+    &-guesses {
+      @include trade-winds;
+      font-size: 20px;
+      background: $onePieceDark;
+      background: linear-gradient(
+        0deg,
+        $onePieceDark 33%,
+        $onePieceLightRed 100%
+      );
+      border-color: #fff;
+      color: #eee;
+    }
+  }
+
+  .impossible-feedback {
+    color: #fff;
+  }
+
+  button {
+    @include trade-winds;
+    font-size: 16px;
+    color: $onePieceDark;
+
+    &:hover:not(:disabled) {
+      background-color: #eee;
+      color: $onePieceDark;
+    }
+  }
+
+  .icon {
+    &:before {
+      background: $onePieceLight;
+      background: radial-gradient(
+        circle,
+        $onePieceLight,
+        rgba(208, 222, 90, 0) 75%
+      );
+    }
+  }
+
+  .game-over {
+    color: #fff;
+    background: $onePieceDark;
+    background: linear-gradient(
+      0deg,
+      $onePieceDark 33%,
+      $onePieceLight 100%
+    );
+
+    h2 {
+      margin-bottom: 40px;
+    }
+  }
 }
 
-.vt323-regular {
-  font-family: "VT323", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.pt-serif-regular {
-  font-family: "PT Serif", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.pt-serif-bold {
-  font-family: "PT Serif", serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.pt-serif-regular-italic {
-  font-family: "PT Serif", serif;
-  font-weight: 400;
-  font-style: italic;
-}
-
-.pt-serif-bold-italic {
-  font-family: "PT Serif", serif;
-  font-weight: 700;
-  font-style: italic;
-}

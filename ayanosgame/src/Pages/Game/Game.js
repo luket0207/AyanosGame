@@ -21,8 +21,8 @@ const getImageSet = (theme) => {
       return imageSets.pokemon;
     case "Dogs":
       return imageSets.dogs;
-    case "Food":
-      return imageSets.food;
+    case "OnePiece":
+      return imageSets.onePiece;
     default:
       return imageSets.pokemon; // Fallback to default (pokemon)
   }
@@ -37,10 +37,10 @@ const Game = ({
   let maxGuesses;
   switch (difficulty) {
     case "easy":
-      maxGuesses = Math.ceil(codeLength / 2);
+      maxGuesses = Math.ceil(codeLength / 2) + 1;
       break;
     case "medium":
-      maxGuesses = codeLength - 2;
+      maxGuesses = codeLength - 1;
       break;
     case "hard":
       maxGuesses = codeLength;
@@ -297,23 +297,81 @@ const Game = ({
   };
 
   if (gameStatus) {
+    // Get the player's last guess (if available)
+    const lastGuess =
+      guessLog.length > 0 ? guessLog[guessLog.length - 1].guess : [];
+
+    // Create arrays to track correct and misplaced icons
+    let lastGuessCorrect = Array(codeLength).fill(false);
+    let lastGuessInAnswer = Array(codeLength).fill(false);
+
+    if (lastGuess.length > 0) {
+      // Check for correct positions first
+      lastGuess.forEach((icon, index) => {
+        if (icon === hiddenAnswer[index]) {
+          lastGuessCorrect[index] = true; // Mark as correct
+        }
+      });
+
+      // Check for icons that exist but in the wrong position
+      lastGuess.forEach((icon, index) => {
+        if (!lastGuessCorrect[index] && hiddenAnswer.includes(icon)) {
+          lastGuessInAnswer[index] = true; // Mark as in-answer if not correct
+        }
+      });
+    }
+
     return (
       <div className="game-over">
         <h2>{gameStatus === "win" ? "You Win! 🎉" : "Game Over 😢"}</h2>
-        <div className="hidden-answer">
-          <h3>Hidden Answer:</h3>
-          <div className="answer-list">
-            {hiddenAnswer.map((icon, index) => (
-              <div key={index}>
-                <img
-                  src={require(`../../Assets/Images/${theme}/${icon}.png`)}
-                  alt={icon}
-                  className="game-img"
-                />
-              </div>
-            ))}
+
+        <div className="final-results">
+          {/* Last Guess Section */}
+          <div className="last-guess">
+            <h3>Your Last Guess:</h3>
+            <div className="guess-list">
+              {lastGuess.length > 0 ? (
+                lastGuess.map((icon, index) => (
+                  <div
+                    key={index}
+                    className={`guess-slot ${
+                      lastGuessCorrect[index]
+                        ? "correct"
+                        : lastGuessInAnswer[index] && difficulty !== "easy"
+                        ? "in-answer"
+                        : "incorrect"
+                    }`}
+                  >
+                    <img
+                      src={require(`../../Assets/Images/${theme}/${icon}.png`)}
+                      alt={icon}
+                      className="game-img"
+                    />
+                  </div>
+                ))
+              ) : (
+                <p>No guesses were made.</p>
+              )}
+            </div>
+          </div>
+
+          {/* Hidden Answer Section */}
+          <div className="hidden-answer">
+            <h3>Correct Answer:</h3>
+            <div className="guess-list">
+              {hiddenAnswer.map((icon, index) => (
+                <div key={index} className="guess-slot">
+                  <img
+                    src={require(`../../Assets/Images/${theme}/${icon}.png`)}
+                    alt={icon}
+                    className="game-img"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
+
         <button
           className="return-home-btn"
           onClick={() => setGameState("start")}
@@ -388,7 +446,9 @@ const Game = ({
 
       <div className="guess" ref={guessRef}>
         <div className="guess-guesses">
-          <p>{guessesLeft} Guesses Left</p>
+          <p>
+            {guessesLeft} Guess{guessesLeft !== 1 ? "es" : ""} Left
+          </p>
         </div>
         <div className="guess-list" ref={iconRef}>
           {guess.map((icon, index) => (

@@ -1,37 +1,75 @@
 // ../../Assets/Images/imageSets.js
 const pokemonImages = [
-    "bulbasaur",
-    "charmander",
-    "chimchar",
-    "dialga",
-    "eevee",
-    "gengar",
-    "growlithe",
-    "lapras",
-    "lillipup",
-    "litten",
-    "lugia",
-    "palkia",
-    "pikachu",
-    "piplup",
-    "popplio",
-    "rowlet",
-    "shinx",
-    "squirtle",
-    "turtwig",
-    "wooper",
-  ];
-  
-  // Future-proofing for more sets
-  const anotherSet = [
-    "image1",
-    "image2",
-    "image3",
-    "image4",
-  ];
-  
-  export const imageSets = {
-    pokemon: pokemonImages,
-    anotherSet: anotherSet, // Placeholder for new sets
-  };
-  
+  "bulbasaur",
+  "charmander",
+  "chimchar",
+  "dialga",
+  "eevee",
+  "gengar",
+  "growlithe",
+  "lapras",
+  "lillipup",
+  "litten",
+  "lugia",
+  "palkia",
+  "pikachu",
+  "piplup",
+  "popplio",
+  "rowlet",
+  "shinx",
+  "squirtle",
+  "turtwig",
+  "wooper",
+];
+
+const dogImages = [
+  "dog1",
+  "dog2",
+  "dog3",
+  "dog4",
+  "dog5",
+  "dog6",
+  "dog7",
+  "dog8",
+  "dog9",
+  "dog10",
+  "dog11",
+  "dog12",
+  "dog13",
+  "dog14",
+  "dog15",
+  "dog16",
+  "dog17",
+  "dog18",
+  "dog19",
+  "dog20",
+];
+
+const onePieceImages = [
+  "op1",
+  "op2",
+  "op3",
+  "op4",
+  "op5",
+  "op6",
+  "op7",
+  "op8",
+  "op9",
+  "op10",
+  "op11",
+  "op12",
+  "op13",
+  "op14",
+  "op15",
+  "op16",
+  "op17",
+  "op18",
+  "op19",
+  "op20",
+];
+
+export const imageSets = {
+  pokemon: pokemonImages,
+  dogs: dogImages, 
+  onePiece: onePieceImages,
+};

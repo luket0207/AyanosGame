@@ -9,14 +9,13 @@
   overflow: hidden;
 
   .game-quit {
-    margin-top: 80px;
+    margin-top: 60px;
   }
 
   .close-btn {
     width: 36px;
     height: 36px;
     background-color: #fff;
-    color: #357eab;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -30,12 +29,13 @@
 
   .guess-log {
     &-container {
-      max-height: 380px;
       overflow-y: auto;
+      background-color: #fff;
+      padding-bottom: 20px;
     }
 
     h2 {
-      margin-bottom: 10px;
+      margin-bottom: 20px;
     }
 
     p {
@@ -45,6 +45,7 @@
     .no-guesses {
         padding: 10px 30px;
         font-size: 22px;
+        margin: 20px 0px 0px;
     }
 
     .log-entry-container {

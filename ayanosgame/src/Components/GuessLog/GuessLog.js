@@ -27,9 +27,14 @@ const GuessLog = ({
       {type === "log" ? (
         <div className="guess-log">
           <h2>Guess Log</h2>
-          <div className="guess-log-container">
+          <div
+            className="guess-log-container"
+            style={{ maxHeight: `calc(100vh - ${guessHeight + 160}px)` }}
+          >
             {guessLog.length === 0 ? (
-              <p className="no-guesses">Guesses will appear here after you make them</p>
+              <p className="no-guesses">
+                Guesses will appear here after you make them
+              </p>
             ) : (
               guessLog.map((entry, index) => (
                 <div key={index} className="log-entry">
@@ -39,11 +44,14 @@ const GuessLog = ({
                       <div
                         key={i}
                         className={`log-slot ${
-                          entry.correctPositions[i] && difficulty !== "impossible"
+                          entry.correctPositions[i] &&
+                          difficulty !== "impossible"
                             ? "correct"
                             : entry.inAnswerPositions[i] &&
                               (difficulty === "medium" || difficulty === "hard")
                             ? "in-answer"
+                            : difficulty === "impossible"
+                            ? "impossible"
                             : "incorrect"
                         }`}
                       >
