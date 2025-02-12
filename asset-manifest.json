@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/AyanosGame/static/css/main.56fa9352.css",
-    "main.js": "/AyanosGame/static/js/main.749718d1.js",
+    "main.css": "/AyanosGame/static/css/main.4b0961c1.css",
+    "main.js": "/AyanosGame/static/js/main.3fd2a945.js",
     "static/js/151.33a1cfe4.chunk.js": "/AyanosGame/static/js/151.33a1cfe4.chunk.js",
     "static/media/dog10.png": "/AyanosGame/static/media/dog10.3ea15ac52089915b5ffc.png",
     "static/media/dog7.png": "/AyanosGame/static/media/dog7.daac8ffed102bc92030d.png",
@@ -42,9 +42,9 @@
     "static/media/dog2.png": "/AyanosGame/static/media/dog2.d94994f69af81e4661ed.png",
     "static/media/dog4.png": "/AyanosGame/static/media/dog4.6f5fba1d9f21edf820eb.png",
     "static/media/op9.png": "/AyanosGame/static/media/op9.ccb1c2afe9f19f28cfed.png",
-    "static/media/op-bg.png": "/AyanosGame/static/media/op-bg.47fc24f34a0fa977d8aa.png",
     "static/media/dog9.png": "/AyanosGame/static/media/dog9.e00b47efe2591ae5da1f.png",
     "static/media/dog12.png": "/AyanosGame/static/media/dog12.bb028ec8a4a4ec9fd48f.png",
+    "static/media/op-bg.png": "/AyanosGame/static/media/op-bg.f83ff8757bf76bfa75ab.png",
     "static/media/dog5.png": "/AyanosGame/static/media/dog5.2e4902d81dadbdc66130.png",
     "static/media/dog1.png": "/AyanosGame/static/media/dog1.5d47094e872dbf86da64.png",
     "static/media/dog20.png": "/AyanosGame/static/media/dog20.66bd7dc00c95719b89f3.png",
@@ -63,12 +63,12 @@
     "static/media/squirtle.png": "/AyanosGame/static/media/squirtle.806007e60d43a72ddf8f.png",
     "static/media/eevee.png": "/AyanosGame/static/media/eevee.94e695de13c6e84d797a.png",
     "index.html": "/AyanosGame/index.html",
-    "main.56fa9352.css.map": "/AyanosGame/static/css/main.56fa9352.css.map",
-    "main.749718d1.js.map": "/AyanosGame/static/js/main.749718d1.js.map",
+    "main.4b0961c1.css.map": "/AyanosGame/static/css/main.4b0961c1.css.map",
+    "main.3fd2a945.js.map": "/AyanosGame/static/js/main.3fd2a945.js.map",
     "151.33a1cfe4.chunk.js.map": "/AyanosGame/static/js/151.33a1cfe4.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.56fa9352.css",
-    "static/js/main.749718d1.js"
+    "static/css/main.4b0961c1.css",
+    "static/js/main.3fd2a945.js"
   ]
 }
