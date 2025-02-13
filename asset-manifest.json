@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/AyanosGame/static/css/main.3162a0e5.css",
-    "main.js": "/AyanosGame/static/js/main.69b7fa02.js",
+    "main.css": "/AyanosGame/static/css/main.868d5c31.css",
+    "main.js": "/AyanosGame/static/js/main.a8f4f4fb.js",
     "static/js/151.33a1cfe4.chunk.js": "/AyanosGame/static/js/151.33a1cfe4.chunk.js",
     "static/media/dog10.png": "/AyanosGame/static/media/dog10.3ea15ac52089915b5ffc.png",
     "static/media/dog7.png": "/AyanosGame/static/media/dog7.daac8ffed102bc92030d.png",
@@ -63,12 +63,12 @@
     "static/media/squirtle.png": "/AyanosGame/static/media/squirtle.806007e60d43a72ddf8f.png",
     "static/media/eevee.png": "/AyanosGame/static/media/eevee.94e695de13c6e84d797a.png",
     "index.html": "/AyanosGame/index.html",
-    "main.3162a0e5.css.map": "/AyanosGame/static/css/main.3162a0e5.css.map",
-    "main.69b7fa02.js.map": "/AyanosGame/static/js/main.69b7fa02.js.map",
+    "main.868d5c31.css.map": "/AyanosGame/static/css/main.868d5c31.css.map",
+    "main.a8f4f4fb.js.map": "/AyanosGame/static/js/main.a8f4f4fb.js.map",
     "151.33a1cfe4.chunk.js.map": "/AyanosGame/static/js/151.33a1cfe4.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3162a0e5.css",
-    "static/js/main.69b7fa02.js"
+    "static/css/main.868d5c31.css",
+    "static/js/main.a8f4f4fb.js"
   ]
 }
