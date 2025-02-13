@@ -2,8 +2,13 @@ import "./Game.scss";
 import React, { useState, useEffect, useRef } from "react";
 import { imageSets } from "../../Assets/Images/ImageSets";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes, faQuestion } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTimes,
+  faQuestion,
+  faTableList,
+} from "@fortawesome/free-solid-svg-icons";
 import GuessLog from "../../Components/GuessLog/GuessLog";
+import languages from "../../Components/Languages/Languages";
 
 // Fisher-Yates Shuffle Algorithm
 const shuffleArray = (array) => {
@@ -33,14 +38,15 @@ const Game = ({
   difficulty = "easy",
   setGameState,
   theme = "Pokemon",
+  language = "en",
 }) => {
   let maxGuesses;
   switch (difficulty) {
     case "easy":
-      maxGuesses = Math.ceil(codeLength / 2) + 1;
+      maxGuesses = Math.ceil(codeLength / 2);
       break;
     case "medium":
-      maxGuesses = codeLength - 1;
+      maxGuesses = codeLength - 2;
       break;
     case "hard":
       maxGuesses = codeLength;
@@ -323,12 +329,16 @@ const Game = ({
 
     return (
       <div className="game-over">
-        <h2>{gameStatus === "win" ? "You Win! 🎉" : "Game Over 😢"}</h2>
+        <h2>
+          {gameStatus === "win"
+            ? languages[language].gameWin
+            : languages[language].gameOver}
+        </h2>
 
         <div className="final-results">
           {/* Last Guess Section */}
           <div className="last-guess">
-            <h3>Your Last Guess:</h3>
+            <h3>{languages[language].lastGuess}</h3>
             <div className="guess-list">
               {lastGuess.length > 0 ? (
                 lastGuess.map((icon, index) => (
@@ -357,7 +367,7 @@ const Game = ({
 
           {/* Hidden Answer Section */}
           <div className="hidden-answer">
-            <h3>Correct Answer:</h3>
+            <h3>{languages[language].correctAnswer}</h3>
             <div className="guess-list">
               {hiddenAnswer.map((icon, index) => (
                 <div key={index} className="guess-slot">
@@ -376,7 +386,7 @@ const Game = ({
           className="return-home-btn"
           onClick={() => setGameState("start")}
         >
-          Return to Home
+          {languages[language].returnHome}
         </button>
       </div>
     );
@@ -393,6 +403,7 @@ const Game = ({
         theme={theme}
         type={menuState.type}
         setGameState={setGameState}
+        language={language}
       />
 
       <div className="header">
@@ -400,11 +411,20 @@ const Game = ({
           className="header-guesslog"
           onClick={() => setMenuState({ open: true, type: "log" })}
         >
-          <FontAwesomeIcon icon={faQuestion} />
+          <FontAwesomeIcon icon={faTableList} />
         </div>
 
         <div className="header-difficulty">
-          <p>{difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}</p>
+          <p>
+            {
+              languages[language].difficulties[
+                ["easy", "medium", "hard", "extreme", "impossible"].indexOf(
+                  difficulty
+                )
+              ]
+            }
+          </p>
+          <p className="small-text">{languages[language].doubleTap}</p>
         </div>
 
         <div
@@ -447,7 +467,7 @@ const Game = ({
       <div className="guess" ref={guessRef}>
         <div className="guess-guesses">
           <p>
-            {guessesLeft} Guess{guessesLeft !== 1 ? "es" : ""} Left
+            {guessesLeft} {languages[language].guessesLeft}
           </p>
         </div>
         <div className="guess-list" ref={iconRef}>
@@ -483,8 +503,12 @@ const Game = ({
         </div>
         {difficulty === "impossible" && (
           <div className="impossible-feedback">
-            <h3>Correct Icons in Right Place: {correctCount}</h3>
-            <h3>Correct Icons: {totalCorrectIcons}</h3>
+            <h3>
+              {languages[language].correctIconsInPlace}: {correctCount}
+            </h3>
+            <h3>
+              {languages[language].correctIcons}: {totalCorrectIcons}
+            </h3>
           </div>
         )}
         <button
@@ -492,38 +516,9 @@ const Game = ({
           onClick={handleSubmitGuess}
           disabled={guess.includes(null) || gameStatus !== null}
         >
-          Submit Guess
+          {languages[language].submitGuess}
         </button>
       </div>
-
-      {/* {difficulty != "impossible" && (
-        <div className="guess-log">
-          <h3>Guess Log</h3>
-          {guessLog.map((entry, index) => (
-            <div key={index} className="log-entry">
-              {entry.guess.map((icon, i) => (
-                <div
-                  key={i}
-                  className={`log-slot ${
-                    entry.correctPositions[i] && difficulty !== "impossible"
-                      ? "correct"
-                      : entry.inAnswerPositions[i] &&
-                        (difficulty === "medium" || difficulty === "hard")
-                      ? "in-answer"
-                      : "incorrect"
-                  }`}
-                >
-                  <img
-                    src={require(`../../Assets/Images/${theme}/${icon}.png`)}
-                    alt={icon}
-                    className="game-img"
-                  />
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      )} */}
     </div>
   );
 };

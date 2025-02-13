@@ -1,9 +1,21 @@
 import "./Start.scss";
 import { useState, useRef, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronDown,
+  faTimes,
+  faGlobe,
+} from "@fortawesome/free-solid-svg-icons";
+import languages from "../../Components/Languages/Languages";
 
-const Start = ({ setGameState, setGameConfig, setTheme, theme }) => {
+const Start = ({
+  setGameState,
+  setGameConfig,
+  setTheme,
+  theme,
+  language,
+  setLanguage,
+}) => {
   const [difficulty, setDifficulty] = useState(null);
   const [isHowToPlayOpen, setIsHowToPlayOpen] = useState(false);
   const accordionRef = useRef(null);
@@ -41,53 +53,51 @@ const Start = ({ setGameState, setGameConfig, setTheme, theme }) => {
     }
   };
 
+  const toggleLanguage = () => {
+    setLanguage((prev) => (prev === "en" ? "jp" : "en"));
+  };
+
   return (
     <div className="start">
-      <h1>AYANO's GAME</h1>
+      <h1>{languages[language].title}</h1>
 
       {!difficulty ? (
         <>
           {/* Theme Selection */}
-          <h3>Select Theme</h3>
+          <h3 className="theme-text">{languages[language].settings}</h3>
           <div className="theme-buttons">
-            <div
-              className={`theme-option ${theme === "Pokemon" ? "active" : ""}`}
-              onClick={() => setTheme("Pokemon")}
-            >
-              <img
-                src={require(`../../Assets/Images/Pokemon/pikachu.png`)}
-                alt={"Pokemon"}
-                className="game-img"
-              />
-            </div>
-            <div
-              className={`theme-option ${theme === "Dogs" ? "active" : ""}`}
-              onClick={() => setTheme("Dogs")}
-            >
-              <img
-                src={require(`../../Assets/Images/Dogs/dog5.png`)}
-                alt={"Dogs"}
-                className="game-img"
-              />
-            </div>
-            <div
-              className={`theme-option ${theme === "OnePiece" ? "active" : ""}`}
-              onClick={() => setTheme("OnePiece")}
-            >
-              <img
-                src={require(`../../Assets/Images/OnePiece/op-logo.png`)}
-                alt={"Dogs"}
-                className="game-img"
-              />
-            </div>
+            {["Pokemon", "Dogs", "OnePiece"].map((t, index) => (
+              <div
+                key={t}
+                className={`theme-option ${theme === t ? "active" : ""}`}
+                onClick={() => setTheme(t)}
+              >
+                <img
+                  src={require(`../../Assets/Images/${t}/${
+                    t === "Pokemon"
+                      ? "pikachu"
+                      : t === "Dogs"
+                      ? "dog5"
+                      : "op-logo"
+                  }.png`)}
+                  alt={languages[language].themes[index]}
+                  className="game-img"
+                />
+              </div>
+            ))}
           </div>
+          {/* Language Toggle Button */}
+          <button className="language-toggle" onClick={toggleLanguage}>
+            <FontAwesomeIcon icon={faGlobe} />{" "}
+            {language === "en" ? "日本語" : "EN"}
+          </button>
           {/* How To Play - Accordion */}
           <button
             ref={titleRef}
             className="accordion-title"
             onClick={toggleHowToPlay}
           >
-            How To Play
+            {languages[language].howToPlay}
             <FontAwesomeIcon
               icon={faChevronDown}
               className={`chevron-icon ${isHowToPlayOpen ? "rotate" : ""}`}
@@ -98,65 +108,55 @@ const Start = ({ setGameState, setGameConfig, setTheme, theme }) => {
             className="accordion-content"
             style={{ maxHeight: accordionHeight }}
           >
-            <h3>Set Up</h3>
+            <h3>{languages[language].instructions.theGame}</h3>
+            <p>{languages[language].instructions.gameDesc}</p>
+            <p>{languages[language].instructions.aim}</p>
+            <p>{languages[language].instructions.orderChanges}</p>
+
+            <h3>{languages[language].instructions.setup}</h3>
+            <p>{languages[language].instructions.setupDesc}</p>
+            <p>{languages[language].instructions.themeChange}</p>
+
+            <h3>{languages[language].instructions.gameplay}</h3>
+            <p>{languages[language].instructions.moveIcons}</p>
+            <p>{languages[language].instructions.doubleClick}</p>
+            <p>{languages[language].instructions.swapItems}</p>
+            <p>{languages[language].instructions.previousGuesses}</p>
+
+            <h3>{languages[language].instructions.difficulties}</h3>
             <p>
-              Select a difficulty and then the amount of icons you want to play
-              the game with.
+              <strong>{languages[language].difficulties[0]}</strong> -{" "}
+              {languages[language].instructions.easy}
             </p>
             <p>
-              You can change the theme on the start screen, but not in the game.
-            </p>
-            <h3>Gameplay</h3>
-            <p>
-              To move icons, click an icon first to select it, then click a slot
-              in the bottom slots to place the icon in it.
+              <strong>{languages[language].difficulties[1]}</strong> -{" "}
+              {languages[language].instructions.medium}
             </p>
             <p>
-              You can double-click an icon to put it into the next empty slot.
-            </p>
-            <p>You can swap items as much as you like before guessing.</p>
-            <p>
-              You can see your previous guesses by clicking on the ? in the
-              header.
-            </p>
-            <h3>Difficulties</h3>
-            <p>
-              <strong>Easy</strong> - There are the same amount of slots as
-              icons, so you just have to guess the order.
+              <strong>{languages[language].difficulties[2]}</strong> -{" "}
+              {languages[language].instructions.hard}
             </p>
             <p>
-              <strong>Medium</strong> - There are more icons than slots. So an
-              icon you guess may not be in the final answer. If an icon is in
-              the answer, but not in the correct position, it will display in
-              yellow.
+              <strong>{languages[language].difficulties[3]}</strong> -{" "}
+              {languages[language].instructions.extreme}
             </p>
             <p>
-              <strong>Hard</strong> - Same as Medium but there are even more
-              icons.
-            </p>
-            <p>
-              <strong>Extreme</strong> - Same as Hard but it doesn't tell you if
-              an icon is correct unless it is in the exact correct position. So
-              it will not mark icons with yellow anymore.
-            </p>
-            <p>
-              <strong>Impossible</strong> - You get no feedback to tell you
-              which icons were correct. You only get told how many you got right
-              and how many of them are in the right position.
+              <strong>{languages[language].difficulties[4]}</strong> -{" "}
+              {languages[language].instructions.impossible}
             </p>
           </div>
 
           {/* Select Difficulty */}
-          <h3>Select Difficulty</h3>
+          <h3>{languages[language].selectDifficulty}</h3>
           <div className="difficulty-buttons">
             {["easy", "medium", "hard", "extreme", "impossible"].map(
-              (level) => (
+              (level, index) => (
                 <button
                   key={level}
                   onClick={() => setDifficulty(level)}
                   className="difficulty-option"
                 >
-                  {level.charAt(0).toUpperCase() + level.slice(1)}
+                  {languages[language].difficulties[index]}
                 </button>
               )
             )}
@@ -167,8 +167,14 @@ const Start = ({ setGameState, setGameConfig, setTheme, theme }) => {
           {/* Selected Difficulty */}
           <div className="selected-difficulty">
             <h4>
-              Difficulty:{" "}
-              {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+              {languages[language].difficulty}:{" "}
+              {
+                languages[language].difficulties[
+                  ["easy", "medium", "hard", "extreme", "impossible"].indexOf(
+                    difficulty
+                  )
+                ]
+              }
             </h4>
             <FontAwesomeIcon
               icon={faTimes}
@@ -178,7 +184,7 @@ const Start = ({ setGameState, setGameConfig, setTheme, theme }) => {
           </div>
 
           {/* Select Code Length */}
-          <h3>Select How Many Icons</h3>
+          <h3>{languages[language].selectIcons}</h3>
           <div className="code-length-buttons">
             {[5, 6, 7, 8, 9, 10].map((length) => (
               <button key={length} onClick={() => handleStart(length)}>

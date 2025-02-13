@@ -27,6 +27,10 @@
      p {margin: 0;}
   }
 
+  .small-text {
+    font-size: 12px;
+  }
+
   &-guesslog {
     width: 36px;
     height: 36px;
@@ -37,6 +41,12 @@
     align-items: center;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
     cursor: pointer;
+    transform: scale(1);
+    transition: all .3s ease;
+
+    &:hover {
+      transform: scale(1.2);
+    }
   }
 
   &-quit {
@@ -49,6 +59,12 @@
     align-items: center;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
     cursor: pointer;
+    transform: scale(1);
+    transition: all .3s ease;
+
+    &:hover {
+      transform: scale(1.2);
+    }
   }
 }
 
@@ -83,7 +99,7 @@
   justify-content: center;
   width: 100px;
 
-  &:before {
+  &:after {
     position: absolute;
     content: "";
     display: block;
