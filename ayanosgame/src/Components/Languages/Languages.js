@@ -11,6 +11,7 @@ const languages = {
       
       instructions: {
         theGame: "The Game",
+        warning: "⚠️ This game may have limited functionality on Safari Mobile. For the best experience, please use Chrome, Firefox or the browser in Line",
         gameDesc: "It's basically Wordle but with pictures and not letters.",
         aim: "The aim of the game is to move all the icons into the correct order in your guess slots at the bottom of the screen.",
         orderChanges: "Each new game the order will be different, it is up to you to take guesses and use the clues to get closer to the correct answer.",
@@ -65,6 +66,7 @@ const languages = {
   
       instructions: {
         theGame: "ゲームの概要",
+        warning: "⚠️ このゲームはSafariモバイルでは一部の機能が制限される場合があります。最適な体験のために、Chrome、Firefox、またはLINE内のブラウザをご利用ください。",
         gameDesc: "これはWordleに似ていますが、文字ではなく画像を使います。",
         aim: "このゲームの目的は、すべてのアイコンを正しい順序に並べることです。",
         orderChanges: "各ゲームでアイコンの順序が異なります。推測してヒントを活用し、正解に近づきましょう。",

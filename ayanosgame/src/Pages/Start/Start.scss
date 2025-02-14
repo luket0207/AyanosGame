@@ -1,8 +1,9 @@
 .start {
-  padding: 30px;
-  min-height: calc(100vh - 60px);
+  padding: 0px 30px;
+  min-height: 100vh;
 
   h1 {
+    padding-top: 30px;
     margin-bottom: 20px;
     display: inline-block;
   }
@@ -15,6 +16,10 @@
     font-family: "Mochiy Pop One", serif;
     font-weight: 400;
     font-style: normal;
+  }
+
+  .difficulty-buttons {
+    padding-bottom: 30px;
   }
 }
 

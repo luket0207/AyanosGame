@@ -109,6 +109,7 @@ const Start = ({
             style={{ maxHeight: accordionHeight }}
           >
             <h3>{languages[language].instructions.theGame}</h3>
+            <p>{languages[language].instructions.warning}</p>
             <p>{languages[language].instructions.gameDesc}</p>
             <p>{languages[language].instructions.aim}</p>
             <p>{languages[language].instructions.orderChanges}</p>

@@ -1,10 +1,4 @@
 .game {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  padding: 20px;
-  font-family: Arial, sans-serif;
   user-select: none;
 }
 
@@ -69,7 +63,7 @@
 }
 
 .icons {
-  margin-top: 60px;
+  margin-top: 80px;
   width: 100vw;
 }
 
@@ -99,7 +93,7 @@
   justify-content: center;
   width: 100px;
 
-  &:after {
+  &:before {
     position: absolute;
     content: "";
     display: block;
@@ -122,6 +116,7 @@
   img {
     max-width: 100px;
     max-height: 100px;
+    z-index: 3;
   }
 
   &:hover {
